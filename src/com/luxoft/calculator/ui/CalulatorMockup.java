@@ -140,6 +140,7 @@ public class CalulatorMockup {
 	
 	public void start() {
 		createTabItem1();
+		//numberOneText.addListener(SWT., listener)
 		createTabItem2();
 		
 		shell.pack();
