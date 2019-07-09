@@ -1,5 +1,7 @@
 package com.luxoft.calculator.service;
 
+import com.luxoft.calculator.model.ExpressionOfNumbers;
+
 public interface ICalculate {
-	double calculate(double num1, double num2);
+	void calculate(ExpressionOfNumbers expression);
 }

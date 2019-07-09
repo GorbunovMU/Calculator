@@ -1,6 +1,6 @@
 package com.luxoft.calculator.app;
 
-import com.luxoft.calculator.ui.CalulatorMockup;
+import com.luxoft.calculator.ui.CalulatorView;
 
 public class Application {
 
@@ -8,7 +8,7 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		CalulatorMockup calulatorGUI = new CalulatorMockup();
+		CalulatorView calulatorGUI = new CalulatorView();
 		calulatorGUI.start();
 
 	}
