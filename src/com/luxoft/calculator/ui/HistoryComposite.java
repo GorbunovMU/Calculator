@@ -5,7 +5,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 
 public class HistoryComposite extends Composite implements IHistoric {
 	
@@ -22,7 +22,7 @@ public class HistoryComposite extends Composite implements IHistoric {
 	}
 
 	@Override
-	public void addExpressionToHistory(ExpressionOfNumbers expressionOfNumbers) {
+	public void addExpressionToHistory(CalculatorModel expressionOfNumbers) {
 		historyList.add(expressionOfNumbers.toString());
 		
 	}

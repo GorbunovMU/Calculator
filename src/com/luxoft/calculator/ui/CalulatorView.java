@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
 
 
@@ -28,7 +28,7 @@ public class CalulatorView {
 	private CalculatorComposite calculatorComposite;
 	private HistoryComposite historyComposite;
 	
-	public CalulatorView(Calculation calculation, ExpressionOfNumbers expressionOfNumbers) {
+	public CalulatorView(Calculation calculation, CalculatorModel expressionOfNumbers) {
 		display = new Display();
 		
 		shell = new Shell(display);

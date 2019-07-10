@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.luxoft.calculator.listener.ModifyValuesListener;
 import com.luxoft.calculator.listener.VerifyEditNumbersLisener;
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
 import com.luxoft.calculator.utils.Converter;
 import com.luxoft.calculator.utils.Operations;
@@ -45,10 +45,10 @@ public class CalculatorComposite extends Composite implements IConverter {
 	
 	private Calculation calculation;
 	private IHistoric history;
-	private ExpressionOfNumbers expressionOfNumbers;
+	private CalculatorModel expressionOfNumbers;
 	
 	public CalculatorComposite(Composite parent, int style, Calculation calculation,
-			IHistoric history, ExpressionOfNumbers expressionOfNumbers) {
+			IHistoric history, CalculatorModel expressionOfNumbers) {
 		super(parent, style);
 		this.calculation = calculation;
 		this.history = history;
@@ -167,7 +167,7 @@ public class CalculatorComposite extends Composite implements IConverter {
 	}
 	
 	@Override
-	public ExpressionOfNumbers convertToModel() {
+	public CalculatorModel convertToModel() {
 		
 //		ExpressionOfNumbers expressionOfNumbers = new ExpressionOfNumbers();
 		
@@ -179,7 +179,7 @@ public class CalculatorComposite extends Composite implements IConverter {
 	}
 	
 	@Override
-	public void convertToView(ExpressionOfNumbers expressionOfNumbers) {
+	public void convertToView(CalculatorModel expressionOfNumbers) {
 		resultText.setText(expressionOfNumbers.getResult());
 	}
 	
@@ -210,7 +210,7 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private void calculateResult() {
 		try {
 			validateForEmptyFields();
-			ExpressionOfNumbers expressionOfNumbers = convertToModel();
+			CalculatorModel expressionOfNumbers = convertToModel();
 			calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
 			convertToView(expressionOfNumbers);
 			history.addExpressionToHistory(expressionOfNumbers);

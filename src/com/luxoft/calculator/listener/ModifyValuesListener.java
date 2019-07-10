@@ -3,7 +3,7 @@ package com.luxoft.calculator.listener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
 import com.luxoft.calculator.ui.IConverter;
 
@@ -28,7 +28,7 @@ public class ModifyValuesListener implements ModifyListener {
 	
 	private void recalculate() {
 		if (calculateOnFly) {
-			ExpressionOfNumbers expressionOfNumbers = converter.convertToModel(); 
+			CalculatorModel expressionOfNumbers = converter.convertToModel(); 
 //			System.out.println(expressionOfNumbers);
 			calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
 			converter.convertToView(expressionOfNumbers);
