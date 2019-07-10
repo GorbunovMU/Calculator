@@ -5,17 +5,17 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 
 public class MultiplicationCalculationTest {
 
-	private ExpressionOfNumbers expressionOfNumbers;
+	private CalculatorModel expressionOfNumbers;
 	private MultiplicationCalculation calculation;
 	
 	@Before
 	public void setUp() {
 		calculation = new MultiplicationCalculation();
-		expressionOfNumbers = new ExpressionOfNumbers();
+		expressionOfNumbers = new CalculatorModel();
 		expressionOfNumbers.setNumberOne(1.0);
 		expressionOfNumbers.setNumberTwo(2.0);
 		expressionOfNumbers.setResult(Double.toString(2.0));
@@ -24,8 +24,8 @@ public class MultiplicationCalculationTest {
 
 	@Test
 	public void testCalculateMultiplication() {
-		ExpressionOfNumbers expected = expressionOfNumbers;
-		ExpressionOfNumbers actual = new ExpressionOfNumbers();
+		CalculatorModel expected = expressionOfNumbers;
+		CalculatorModel actual = new CalculatorModel();
 		actual.setNumberOne(expressionOfNumbers.getNumberOne());
 		actual.setNumberTwo(expressionOfNumbers.getNumberTwo());
 		calculation.calculate(actual);
@@ -35,8 +35,8 @@ public class MultiplicationCalculationTest {
 	
 	@Test
 	public void testCalculateMultiplicationFaulty() {
-		ExpressionOfNumbers expected = expressionOfNumbers;
-		ExpressionOfNumbers actual = new ExpressionOfNumbers();
+		CalculatorModel expected = expressionOfNumbers;
+		CalculatorModel actual = new CalculatorModel();
 		actual.setNumberOne(expressionOfNumbers.getNumberOne() + 1.0);
 		actual.setNumberTwo(expressionOfNumbers.getNumberTwo());
 		calculation.calculate(actual);

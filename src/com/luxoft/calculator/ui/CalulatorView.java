@@ -4,22 +4,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
-import com.luxoft.calculator.service.Calculation;
-
-
 public class CalulatorView {
 	
 	private static final String APPLICATION_NAME = "SWT Calculator";
-	private static final int START_WIDTH = 500;
+	private static final int START_WIDTH  = 500;
 	private static final int START_HEIGHT = 500;
 
 	
-	private static final String ITEM_1_NAME = "Calculator";
-	private static final String ITEM_2_NAME = "History";
-	
-	
-//	private ListOfExpressions listOfExpressions;
+	private static final String ITEM_CALCULATOR_NAME = "Calculator";
+	private static final String ITEM_HISTORY_NAME = "History";
 	
 	
 	private Display display;
@@ -28,7 +21,7 @@ public class CalulatorView {
 	private CalculatorComposite calculatorComposite;
 	private HistoryComposite historyComposite;
 	
-	public CalulatorView(Calculation calculation, ExpressionOfNumbers expressionOfNumbers) {
+	public CalulatorView() {
 		display = new Display();
 		
 		shell = new Shell(display);
@@ -39,28 +32,27 @@ public class CalulatorView {
 		
 		
 		historyComposite = new HistoryComposite(folder, SWT.NONE);
-		calculatorComposite = new CalculatorComposite(folder, SWT.NONE, calculation,
-				historyComposite, expressionOfNumbers);
+		calculatorComposite = new CalculatorComposite(folder, SWT.NONE, historyComposite);
 		
 	}
 
 	
-	private void createTabItem1() {
+	private void createCalculatorTabItem() {
 		TabItem tabItem = new TabItem(folder, SWT.NONE);
-		tabItem.setText(ITEM_1_NAME);
+		tabItem.setText(ITEM_CALCULATOR_NAME);
 		tabItem.setControl(calculatorComposite);
 	}
 	
-	private void createTabItem2() {
+	private void createHisoryTabItem() {
 		TabItem tabItem = new TabItem(folder, SWT.NONE);
-		tabItem.setText(ITEM_2_NAME);
+		tabItem.setText(ITEM_HISTORY_NAME);
 		tabItem.setControl(historyComposite);
 	}
 	
 	
 	public void start() {
-		createTabItem1();
-		createTabItem2();
+		createCalculatorTabItem();
+		createHisoryTabItem();
 		
 		shell.pack();
 		shell.open();

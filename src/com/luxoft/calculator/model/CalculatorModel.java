@@ -2,21 +2,21 @@ package com.luxoft.calculator.model;
 
 import com.luxoft.calculator.utils.Operations;
 
-public class ExpressionOfNumbers {
+public class CalculatorModel {
 	
 	private double numberOne;
 	private double numberTwo;
 	private String result;
 	private Operations operation;
 
-	public ExpressionOfNumbers() {
+	public CalculatorModel() {
 		numberOne = 0;
 		numberTwo = 0;
 		result = "";
 		operation = Operations.UNKNOWN;
 	}
 
-	public ExpressionOfNumbers(double numberOne, double numberTwo, String result, Operations operation) {
+	public CalculatorModel(double numberOne, double numberTwo, String result, Operations operation) {
 		super();
 		this.numberOne = numberOne;
 		this.numberTwo = numberTwo;
@@ -83,7 +83,7 @@ public class ExpressionOfNumbers {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ExpressionOfNumbers other = (ExpressionOfNumbers) obj;
+		CalculatorModel other = (CalculatorModel) obj;
 		if (Double.doubleToLongBits(numberOne) != Double.doubleToLongBits(other.numberOne))
 			return false;
 		if (Double.doubleToLongBits(numberTwo) != Double.doubleToLongBits(other.numberTwo))

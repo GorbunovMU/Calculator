@@ -1,8 +1,8 @@
 package com.luxoft.calculator.ui;
 
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 
 public interface IConverter {
-	ExpressionOfNumbers convertToModel();
-	void convertToView(ExpressionOfNumbers expressionOfNumbers);
+	CalculatorModel convertToModel();
+	void convertToView(CalculatorModel expressionOfNumbers);
 }

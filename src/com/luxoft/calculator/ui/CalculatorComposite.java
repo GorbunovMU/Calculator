@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.luxoft.calculator.listener.ModifyValuesListener;
 import com.luxoft.calculator.listener.VerifyEditNumbersLisener;
-import com.luxoft.calculator.model.ExpressionOfNumbers;
+import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
 import com.luxoft.calculator.utils.Converter;
 import com.luxoft.calculator.utils.Operations;
@@ -43,19 +43,16 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private ModifyValuesListener modifyValuesListener;
 
 	
-	private Calculation calculation;
 	private IHistoric history;
-	private ExpressionOfNumbers expressionOfNumbers;
+	private CalculatorModel calculatorMidel;
 	
-	public CalculatorComposite(Composite parent, int style, Calculation calculation,
-			IHistoric history, ExpressionOfNumbers expressionOfNumbers) {
+	public CalculatorComposite(Composite parent, int style, IHistoric history) {
 		super(parent, style);
-		this.calculation = calculation;
 		this.history = history;
-		this.expressionOfNumbers = expressionOfNumbers;
+		this.calculatorMidel = new CalculatorModel();
 		init();
 		verifyEditNumbersLisener = new VerifyEditNumbersLisener();
-		modifyValuesListener = new ModifyValuesListener(this, calculation);
+		modifyValuesListener = new ModifyValuesListener(this);
 		initListeners();
 	}
 	
@@ -167,19 +164,19 @@ public class CalculatorComposite extends Composite implements IConverter {
 	}
 	
 	@Override
-	public ExpressionOfNumbers convertToModel() {
+	public CalculatorModel convertToModel() {
 		
 //		ExpressionOfNumbers expressionOfNumbers = new ExpressionOfNumbers();
 		
-		expressionOfNumbers.setNumberOne(Converter.toDouble(numberOneText.getText()));
-		expressionOfNumbers.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
-		expressionOfNumbers.setOperation(Operations.getOperationByString(operationCombo.getText()));
+		calculatorMidel.setNumberOne(Converter.toDouble(numberOneText.getText()));
+		calculatorMidel.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
+		calculatorMidel.setOperation(Operations.getOperationByString(operationCombo.getText()));
 		
-		return expressionOfNumbers;
+		return calculatorMidel;
 	}
 	
 	@Override
-	public void convertToView(ExpressionOfNumbers expressionOfNumbers) {
+	public void convertToView(CalculatorModel expressionOfNumbers) {
 		resultText.setText(expressionOfNumbers.getResult());
 	}
 	
@@ -210,8 +207,8 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private void calculateResult() {
 		try {
 			validateForEmptyFields();
-			ExpressionOfNumbers expressionOfNumbers = convertToModel();
-			calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
+			CalculatorModel expressionOfNumbers = convertToModel();
+			Calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
 			convertToView(expressionOfNumbers);
 			history.addExpressionToHistory(expressionOfNumbers);
 		} catch (Exception exception) {
