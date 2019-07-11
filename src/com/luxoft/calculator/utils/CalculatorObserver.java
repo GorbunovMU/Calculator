@@ -3,12 +3,12 @@ package com.luxoft.calculator.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.luxoft.calculator.listener.CalculationChangeListener;
 import com.luxoft.calculator.model.CalculatorModel;
-import com.luxoft.calculator.ui.Observer;
 
-public class CalculatorObserver implements Observable {
+public class CalculatorObserver {
 	private static CalculatorObserver instance = null;
-	private List<Observer> observers;
+	private List<CalculationChangeListener> observers;
 	private boolean needSaveToHistory;
 	
 	private CalculatorObserver() {
@@ -25,22 +25,19 @@ public class CalculatorObserver implements Observable {
 		return instance;
 	}
 
-	@Override
-	public void registerObserver(Observer o) {
+	public void registerObserver(CalculationChangeListener o) {
 		observers.add(o);
 		
 	}
 
-	@Override
-	public void removeObserver(Observer o) {
+	public void removeObserver(CalculationChangeListener o) {
 		observers.remove(o);
 		
 	}
 
-	@Override
 	public void notifyObservers(CalculatorModel calculatorModel) {
 		
-		for (Observer observer : observers) {
+		for (CalculationChangeListener observer : observers) {
 			observer.update(calculatorModel);
 		}
 		

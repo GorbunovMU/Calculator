@@ -5,10 +5,11 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
+import com.luxoft.calculator.listener.CalculationChangeListener;
 import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.utils.CalculatorObserver;
 
-public class HistoryComposite extends Composite implements Observer {
+public class HistoryComposite extends Composite implements CalculationChangeListener {
 	
 	private List historyList;
 

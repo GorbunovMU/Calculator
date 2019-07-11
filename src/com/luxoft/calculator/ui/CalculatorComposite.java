@@ -12,16 +12,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
+import com.luxoft.calculator.listener.CalculationChangeListener;
 import com.luxoft.calculator.listener.ModifyValuesListener;
 import com.luxoft.calculator.listener.VerifyEditNumbersLisener;
 import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
+import com.luxoft.calculator.service.Operations;
 import com.luxoft.calculator.utils.CalculatorObserver;
 import com.luxoft.calculator.utils.Converter;
-import com.luxoft.calculator.utils.Operations;
 import com.luxoft.exception.EmptyFieldException;
 
-public class CalculatorComposite extends Composite implements IModelConverter, Observer {
+public class CalculatorComposite extends Composite implements IModelConverter, CalculationChangeListener {
 	
 	private static final String TOOLTIP_TEXT_NUMBER_NAME        = "Numbers only allowed";
 	private static final String CHECK_BOX_CALCULATE_ON_FLY_NAME = "Calculate on the fly";
@@ -177,8 +178,7 @@ public class CalculatorComposite extends Composite implements IModelConverter, O
 	
 	@Override
 	public void update(CalculatorModel calculatorModel) {
-		resultText.setText(calculatorModel.getResult());
-		
+		resultText.setText(calculatorModel.getResult());		
 	}
 
 	

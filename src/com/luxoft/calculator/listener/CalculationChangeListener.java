@@ -1,8 +1,8 @@
-package com.luxoft.calculator.ui;
+package com.luxoft.calculator.listener;
 
 import com.luxoft.calculator.model.CalculatorModel;
 
-public interface Observer {
+public interface CalculationChangeListener {
 	
 	void update (CalculatorModel calculatorModel);
 

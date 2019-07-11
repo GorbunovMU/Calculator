@@ -9,8 +9,7 @@ public class Application {
 	 */
 	public static void main(String[] args) {
 		CalulatorView calulatorView = new CalulatorView();
-		calulatorView.start();
-
+		calulatorView.open();
 	}
 
 }

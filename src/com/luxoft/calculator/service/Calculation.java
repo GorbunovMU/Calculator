@@ -2,8 +2,6 @@ package com.luxoft.calculator.service;
 
 import java.util.EnumMap;
 
-import com.luxoft.calculator.utils.Operations;
-
 public class Calculation {
 
 	private static EnumMap<Operations, ICalculate> methodsOfCalculation; 
