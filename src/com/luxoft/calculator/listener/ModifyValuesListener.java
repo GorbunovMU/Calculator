@@ -5,13 +5,14 @@ import org.eclipse.swt.events.ModifyListener;
 
 import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
-import com.luxoft.calculator.ui.IConverter;
+import com.luxoft.calculator.ui.IModelConverter;
+import com.luxoft.calculator.utils.CalculatorObserver;
 
 public class ModifyValuesListener implements ModifyListener {
 	private boolean calculateOnFly;
-	private IConverter converter;
+	private IModelConverter converter;
 	
-	public ModifyValuesListener(IConverter converter) {
+	public ModifyValuesListener(IModelConverter converter) {
 		calculateOnFly = false;
 		this.converter = converter;
 	}
@@ -26,9 +27,10 @@ public class ModifyValuesListener implements ModifyListener {
 	
 	private void recalculate() {
 		if (calculateOnFly) {
-			CalculatorModel expressionOfNumbers = converter.convertToModel(); 
-			Calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
-			converter.convertToView(expressionOfNumbers);
+			CalculatorModel calculatorModel = converter.convertToModel(); 
+			Calculation.getCalculationByOperation(calculatorModel.getOperation()).calculate(calculatorModel);
+			CalculatorObserver.getInstance().notifyObservers(calculatorModel);
+//			converter.convertToView(calculatorModel);
 			
 		}
 		

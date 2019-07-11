@@ -1,6 +1,6 @@
 package com.luxoft.calculator.model;
 
-import com.luxoft.calculator.utils.Operations;
+import com.luxoft.calculator.service.Operations;
 
 public class CalculatorModel {
 	

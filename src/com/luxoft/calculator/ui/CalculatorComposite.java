@@ -12,15 +12,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 
+import com.luxoft.calculator.listener.CalculationChangeListener;
 import com.luxoft.calculator.listener.ModifyValuesListener;
 import com.luxoft.calculator.listener.VerifyEditNumbersLisener;
 import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
+import com.luxoft.calculator.service.Operations;
+import com.luxoft.calculator.utils.CalculatorObserver;
 import com.luxoft.calculator.utils.Converter;
-import com.luxoft.calculator.utils.Operations;
 import com.luxoft.exception.EmptyFieldException;
 
-public class CalculatorComposite extends Composite implements IConverter {
+public class CalculatorComposite extends Composite implements IModelConverter, CalculationChangeListener {
 	
 	private static final String TOOLTIP_TEXT_NUMBER_NAME        = "Numbers only allowed";
 	private static final String CHECK_BOX_CALCULATE_ON_FLY_NAME = "Calculate on the fly";
@@ -42,19 +44,18 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private VerifyEditNumbersLisener verifyEditNumbersLisener;
 	private ModifyValuesListener modifyValuesListener;
 
+	private CalculatorModel calculatorModel;
 	
-	private IHistoric history;
-	private CalculatorModel calculatorMidel;
-	
-	public CalculatorComposite(Composite parent, int style, IHistoric history) {
+	public CalculatorComposite(Composite parent, int style) {
 		super(parent, style);
-		this.history = history;
-		this.calculatorMidel = new CalculatorModel();
+		CalculatorObserver.getInstance().registerObserver(this);
+		this.calculatorModel = new CalculatorModel();
 		init();
 		verifyEditNumbersLisener = new VerifyEditNumbersLisener();
 		modifyValuesListener = new ModifyValuesListener(this);
 		initListeners();
 	}
+	
 	
 	private void init() {
 		GridData gridData;
@@ -166,19 +167,20 @@ public class CalculatorComposite extends Composite implements IConverter {
 	@Override
 	public CalculatorModel convertToModel() {
 		
-//		ExpressionOfNumbers expressionOfNumbers = new ExpressionOfNumbers();
+		calculatorModel.setNumberOne(Converter.toDouble(numberOneText.getText()));
+		calculatorModel.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
+		calculatorModel.setOperation(Operations.getOperationByString(operationCombo.getText()));
 		
-		calculatorMidel.setNumberOne(Converter.toDouble(numberOneText.getText()));
-		calculatorMidel.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
-		calculatorMidel.setOperation(Operations.getOperationByString(operationCombo.getText()));
-		
-		return calculatorMidel;
+		return calculatorModel;
 	}
 	
+	
+	
 	@Override
-	public void convertToView(CalculatorModel expressionOfNumbers) {
-		resultText.setText(expressionOfNumbers.getResult());
+	public void update(CalculatorModel calculatorModel) {
+		resultText.setText(calculatorModel.getResult());		
 	}
+
 	
 	private void validateForEmptyFields() throws EmptyFieldException {
 		String msg = "";
@@ -207,10 +209,11 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private void calculateResult() {
 		try {
 			validateForEmptyFields();
-			CalculatorModel expressionOfNumbers = convertToModel();
-			Calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
-			convertToView(expressionOfNumbers);
-			history.addExpressionToHistory(expressionOfNumbers);
+			CalculatorModel calculatorModel = convertToModel();
+			Calculation.getCalculationByOperation(calculatorModel.getOperation()).calculate(calculatorModel);
+			CalculatorObserver.getInstance().setNeedSaveToHistory(true);
+			CalculatorObserver.getInstance().notifyObservers(calculatorModel);
+			
 		} catch (Exception exception) {
 			MessageBox messageBox = new MessageBox(super.getShell(), SWT.ICON_ERROR | SWT.OK);
 			messageBox.setText("Error");
