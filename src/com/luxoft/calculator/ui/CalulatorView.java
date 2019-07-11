@@ -6,13 +6,13 @@ import org.eclipse.swt.widgets.*;
 
 public class CalulatorView {
 	
-	private static final String APPLICATION_NAME = "SWT Calculator";
+	private static final String APPLICATION_NAME     = "SWT Calculator";
 	private static final int START_WIDTH  = 500;
 	private static final int START_HEIGHT = 500;
 
 	
 	private static final String ITEM_CALCULATOR_NAME = "Calculator";
-	private static final String ITEM_HISTORY_NAME = "History";
+	private static final String ITEM_HISTORY_NAME    = "History";
 	
 	
 	private Display display;
