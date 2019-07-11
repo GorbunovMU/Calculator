@@ -32,7 +32,7 @@ public class CalulatorView {
 		
 		
 		historyComposite = new HistoryComposite(folder, SWT.NONE);
-		calculatorComposite = new CalculatorComposite(folder, SWT.NONE, historyComposite);
+		calculatorComposite = new CalculatorComposite(folder, SWT.NONE);
 		
 	}
 
