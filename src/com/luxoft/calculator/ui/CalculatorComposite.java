@@ -17,10 +17,12 @@ import com.luxoft.calculator.listener.VerifyEditNumbersLisener;
 import com.luxoft.calculator.model.CalculatorModel;
 import com.luxoft.calculator.service.Calculation;
 import com.luxoft.calculator.utils.Converter;
+import com.luxoft.calculator.utils.IConverter;
+import com.luxoft.calculator.utils.Observer;
 import com.luxoft.calculator.utils.Operations;
 import com.luxoft.exception.EmptyFieldException;
 
-public class CalculatorComposite extends Composite implements IConverter {
+class CalculatorComposite extends Composite implements IConverter, Observer {
 	
 	private static final String TOOLTIP_TEXT_NUMBER_NAME        = "Numbers only allowed";
 	private static final String CHECK_BOX_CALCULATE_ON_FLY_NAME = "Calculate on the fly";
@@ -43,19 +45,21 @@ public class CalculatorComposite extends Composite implements IConverter {
 	private ModifyValuesListener modifyValuesListener;
 
 	
-	private IHistoric history;
-	private CalculatorModel calculatorMidel;
+//	private CalculatorModel calculatorModel;
 	
-	public CalculatorComposite(Composite parent, int style, IHistoric history) {
+	public CalculatorComposite(Composite parent, int style) {
 		super(parent, style);
-		this.history = history;
-		this.calculatorMidel = new CalculatorModel();
+//		this.calculatorModel = new CalculatorModel();
 		init();
 		verifyEditNumbersLisener = new VerifyEditNumbersLisener();
 		modifyValuesListener = new ModifyValuesListener(this);
 		initListeners();
 	}
 	
+	public Text getResultText() {
+		return resultText;
+	}
+
 	private void init() {
 		GridData gridData;
 		
@@ -165,19 +169,22 @@ public class CalculatorComposite extends Composite implements IConverter {
 	
 	@Override
 	public CalculatorModel convertToModel() {
+		CalculatorModel calculatorModel = new CalculatorModel();
+		calculatorModel.setNumberOne(Converter.toDouble(numberOneText.getText()));
+		calculatorModel.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
+		calculatorModel.setOperation(Operations.getOperationByString(operationCombo.getText()));
 		
-//		ExpressionOfNumbers expressionOfNumbers = new ExpressionOfNumbers();
-		
-		calculatorMidel.setNumberOne(Converter.toDouble(numberOneText.getText()));
-		calculatorMidel.setNumberTwo(Converter.toDouble(numberTwoText.getText()));
-		calculatorMidel.setOperation(Operations.getOperationByString(operationCombo.getText()));
-		
-		return calculatorMidel;
+		return calculatorModel;
 	}
 	
+//	@Override
+//	public void convertToView(CalculatorModel calculatorModel) {
+//		resultText.setText(calculatorModel.getResult());
+//	}
+
 	@Override
-	public void convertToView(CalculatorModel expressionOfNumbers) {
-		resultText.setText(expressionOfNumbers.getResult());
+	public void update(CalculatorModel calculatorModel) {
+		resultText.setText(calculatorModel.getResult());
 	}
 	
 	private void validateForEmptyFields() throws EmptyFieldException {
@@ -204,13 +211,16 @@ public class CalculatorComposite extends Composite implements IConverter {
 
 	}
 	
+	
+
 	private void calculateResult() {
 		try {
 			validateForEmptyFields();
-			CalculatorModel expressionOfNumbers = convertToModel();
-			Calculation.getCalculationByOperation(expressionOfNumbers.getOperation()).calculate(expressionOfNumbers);
-			convertToView(expressionOfNumbers);
-			history.addExpressionToHistory(expressionOfNumbers);
+			CalculatorModel calculatorModel = convertToModel();
+			Calculation.getCalculationByOperation(calculatorModel.getOperation()).calculate(calculatorModel);
+			update(calculatorModel);
+//			convertToView(calculatorModel);
+//			history.addExpressionToHistory(calculatorModel);
 		} catch (Exception exception) {
 			MessageBox messageBox = new MessageBox(super.getShell(), SWT.ICON_ERROR | SWT.OK);
 			messageBox.setText("Error");
@@ -218,5 +228,6 @@ public class CalculatorComposite extends Composite implements IConverter {
 			messageBox.open();
 		}
 	}
+	
 
 }

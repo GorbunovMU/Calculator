@@ -4,6 +4,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.*;
 
+import com.luxoft.calculator.manager.CalculatorTabViewUIMgr;
+import com.luxoft.calculator.model.CalculatorModel;
+
 public class CalulatorView {
 	
 	private static final String APPLICATION_NAME = "SWT Calculator";
@@ -21,7 +24,13 @@ public class CalulatorView {
 	private CalculatorComposite calculatorComposite;
 	private HistoryComposite historyComposite;
 	
-	public CalulatorView() {
+	private CalculatorModel calculatorModel;
+	
+//	private CalculatorTabViewUIMgr mgr;
+	
+	public CalulatorView(CalculatorModel calculatorModel) {
+		this.calculatorModel  = calculatorModel; 
+		
 		display = new Display();
 		
 		shell = new Shell(display);
@@ -32,9 +41,18 @@ public class CalulatorView {
 		
 		
 		historyComposite = new HistoryComposite(folder, SWT.NONE);
-		calculatorComposite = new CalculatorComposite(folder, SWT.NONE, historyComposite);
+		calculatorModel.registerObserver(historyComposite);
+		
+		calculatorComposite = new CalculatorComposite(folder, SWT.NONE);
+		
+		calculatorModel.registerObserver(calculatorComposite);
 		
 	}
+	
+//	private void initUIManager() {
+//		mgr = new CalculatorTabViewUIMgr();
+//		mgr.createView(folder);
+//	}
 
 	
 	private void createCalculatorTabItem() {

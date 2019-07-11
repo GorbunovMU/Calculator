@@ -1,15 +1,25 @@
 package com.luxoft.calculator.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.luxoft.calculator.utils.Observer;
 import com.luxoft.calculator.utils.Operations;
 
-public class CalculatorModel {
+public class CalculatorModel implements Observable {
 	
 	private double numberOne;
 	private double numberTwo;
 	private String result;
 	private Operations operation;
+	private List<Observer> observers;
+	
+	private Map<String, String> params;
 
 	public CalculatorModel() {
+		observers = new ArrayList<Observer>();
 		numberOne = 0;
 		numberTwo = 0;
 		result = "";
@@ -22,14 +32,39 @@ public class CalculatorModel {
 		this.numberTwo = numberTwo;
 		this.result = result;
 		this.operation = operation;
+		
+		params =new HashMap();
+		params.put("Operand1", numberOne);
 	}
 
+	@Override
+	public void registerObserver(Observer o) {
+		observers.add(o);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+		
+	}
+
+	@Override
+	public void notifyObservers(Map params) {
+		for (Observer observer : observers) {
+			observer.update(this);
+		}
+		
+	}
+	
 	public double getNumberOne() {
 		return numberOne;
 	}
 
 	public void setNumberOne(double numberOne) {
 		this.numberOne = numberOne;
+		params.put("Operand1", numberOne)
+		notifyObservers(params);
 	}
 
 	public double getNumberTwo() {
@@ -46,6 +81,7 @@ public class CalculatorModel {
 
 	public void setResult(String result) {
 		this.result = result;
+		notifyObservers();
 	}
 
 	public Operations getOperation() {

@@ -6,8 +6,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
 import com.luxoft.calculator.model.CalculatorModel;
+import com.luxoft.calculator.utils.Observer;
 
-public class HistoryComposite extends Composite implements IHistoric {
+public class HistoryComposite extends Composite implements Observer {
 	
 	private List historyList;
 
@@ -21,10 +22,12 @@ public class HistoryComposite extends Composite implements IHistoric {
 		historyList = new List(this, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL);
 	}
 
+	
+	
 	@Override
-	public void addExpressionToHistory(CalculatorModel expressionOfNumbers) {
-		historyList.add(expressionOfNumbers.toString());
+	public void update(CalculatorModel calculatorModel) {
+		historyList.add(calculatorModel.toString());
 		
 	}
-	
+
 }
